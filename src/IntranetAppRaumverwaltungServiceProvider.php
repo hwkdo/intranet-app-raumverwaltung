@@ -4,8 +4,9 @@ namespace Hwkdo\IntranetAppRaumverwaltung;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Hwkdo\IntranetAppRaumverwaltung\Commands\IntranetAppRaumverwaltungCommand;
-use Livewire\Livewire;
+use Hwkdo\IntranetAppRaumverwaltung\Models\Raum;
+use Hwkdo\IntranetAppRaumverwaltung\Policies\RaumPolicy;
+use Illuminate\Support\Facades\Gate;
 
 class IntranetAppRaumverwaltungServiceProvider extends PackageServiceProvider
 {
@@ -24,5 +25,10 @@ class IntranetAppRaumverwaltungServiceProvider extends PackageServiceProvider
             ->hasRoute('web')
             ->discoversMigrations();
             #->hasCommand(IntranetAppRaumverwaltungCommand::class);
-    }        
+    }     
+    
+    public function boot(): void
+    {
+        Gate::policy(Raum::class, RaumPolicy::class);
+    }
 }
