@@ -1,6 +1,6 @@
 <?php
 
-use App\Apps\Raumverwaltung\Nutzungsart;
+use Hwkdo\IntranetAppRaumverwaltung\Models\Nutzungsart;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
