@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Hwkdo\IntranetAppRaumverwaltung\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class IntranetAppRaumverwaltungCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'intranet-app-raumverwaltung';
 
     public $description = 'My command';
 

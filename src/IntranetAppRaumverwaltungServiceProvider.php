@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton;
+namespace Hwkdo\IntranetAppRaumverwaltung;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use VendorName\Skeleton\Commands\SkeletonCommand;
+use Hwkdo\IntranetAppRaumverwaltung\Commands\IntranetAppRaumverwaltungCommand;
 
-class SkeletonServiceProvider extends PackageServiceProvider
+class IntranetAppRaumverwaltungServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
@@ -16,10 +16,10 @@ class SkeletonServiceProvider extends PackageServiceProvider
          * More info: https://github.com/spatie/laravel-package-tools
          */
         $package
-            ->name('skeleton')
+            ->name('intranet-app-raumverwaltung')
             ->hasConfigFile()
             ->hasViews()
-            ->hasMigration('create_migration_table_name_table')
-            ->hasCommand(SkeletonCommand::class);
+            ->hasMigration('create_intranet_app_raumverwaltung_table')
+            ->hasCommand(IntranetAppRaumverwaltungCommand::class);
     }
 }
