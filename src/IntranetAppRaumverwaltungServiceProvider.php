@@ -5,6 +5,7 @@ namespace Hwkdo\IntranetAppRaumverwaltung;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Hwkdo\IntranetAppRaumverwaltung\Commands\IntranetAppRaumverwaltungCommand;
+use Livewire\Livewire;
 
 class IntranetAppRaumverwaltungServiceProvider extends PackageServiceProvider
 {
@@ -19,7 +20,9 @@ class IntranetAppRaumverwaltungServiceProvider extends PackageServiceProvider
             ->name('intranet-app-raumverwaltung')
             ->hasConfigFile()
             ->hasViews()
-            ->hasMigration('create_intranet_app_raumverwaltung_table')
-            ->hasCommand(IntranetAppRaumverwaltungCommand::class);
-    }
+            #->hasMigration('create_intranet_app_raumverwaltung_table')
+            ->hasRoute('web')
+            ->discoversMigrations();
+            #->hasCommand(IntranetAppRaumverwaltungCommand::class);
+    }        
 }
