@@ -23,7 +23,7 @@ return new class extends Migration
         Permission::create(['name' => $permission]);
       }
 
-      $roles = IntranetAppBase::getRequiredRolesFromAppConfig(
+      $roles = IntranetAppBase::getRolesWithPermissionsFromAppConfig(
         config("intranet-app-raumverwaltung")
       );
 
