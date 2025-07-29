@@ -7,6 +7,7 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Hwkdo\IntranetAppRaumverwaltung\Models\Raum;
 use Hwkdo\IntranetAppRaumverwaltung\Policies\RaumPolicy;
 use Illuminate\Support\Facades\Gate;
+use Livewire\Volt\Volt;
 
 class IntranetAppRaumverwaltungServiceProvider extends PackageServiceProvider
 {
@@ -22,7 +23,7 @@ class IntranetAppRaumverwaltungServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasViews()
             #->hasMigration('create_intranet_app_raumverwaltung_table')
-            ->hasRoute('web')
+            #->hasRoute('web') #funk,tioniert nicht, muss trotzdem unten loadRoutesFrom machen
             ->discoversMigrations();
             #->hasCommand(IntranetAppRaumverwaltungCommand::class);
     }     
@@ -30,5 +31,10 @@ class IntranetAppRaumverwaltungServiceProvider extends PackageServiceProvider
     public function boot(): void
     {
         Gate::policy(Raum::class, RaumPolicy::class);
+        $this->app->booted( function() {
+            Volt::mount(__DIR__.'/../resources/views/livewire');                        
+        });
+        $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
+
     }
 }
