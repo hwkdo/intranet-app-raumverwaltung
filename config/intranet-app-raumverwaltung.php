@@ -13,6 +13,7 @@ return [
             'name' => 'App-Raumverwaltung-Benutzer',
             'permissions' => [
                 'see-app-raumverwaltung',
+                'manage-app-raumverwaltung',
             ]
         ],
         'others' => [
