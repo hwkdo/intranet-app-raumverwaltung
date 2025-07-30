@@ -7,13 +7,13 @@ return [
             'name' => 'App-Raumverwaltung-Admin',
             'permissions' => [
                 'see-app-raumverwaltung',
+                'manage-app-raumverwaltung',
             ]
         ],
         'user' => [
             'name' => 'App-Raumverwaltung-Benutzer',
             'permissions' => [
-                'see-app-raumverwaltung',
-                'manage-app-raumverwaltung',
+                'see-app-raumverwaltung',                
             ]
         ],
         'others' => [
