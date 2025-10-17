@@ -5,9 +5,7 @@ namespace Hwkdo\IntranetAppRaumverwaltung\Events;
 use Hwkdo\IntranetAppRaumverwaltung\Models\Gebaeude;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
@@ -18,7 +16,7 @@ class GebaeudeUpdated
     /**
      * Create a new event instance.
      */
-    public function __construct(public Gebaeude $gebaeude )
+    public function __construct(public Gebaeude $gebaeude)
     {
         //
     }

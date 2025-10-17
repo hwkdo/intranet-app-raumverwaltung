@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('gebaeude_extern')->nullable();
             $table->integer('plaetze')->nullable();
             $table->integer('plaetze_ff')->nullable();
-            $table->float('qm',precision:2)->nullable();
+            $table->float('qm', precision: 2)->nullable();
             $table->string('strasse')->nullable();
             $table->integer('plz')->nullable();
             $table->string('ort')->nullable();

@@ -1,16 +1,13 @@
 <?php
 
+use Hwkdo\BueLaravel\BueLaravel;
 use Hwkdo\IntranetAppRaumverwaltung\Models\Etage;
 use Hwkdo\IntranetAppRaumverwaltung\Models\Fachbereich;
 use Hwkdo\IntranetAppRaumverwaltung\Models\Gebaeude;
 use Hwkdo\IntranetAppRaumverwaltung\Models\Nutzungsart;
 use Hwkdo\IntranetAppRaumverwaltung\Models\Standort;
-use Hwkdo\IntranetAppBase\Helpers\Help;
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
-use Hwkdo\BueLaravel\BueLaravel;
 
 return new class extends Migration
 {
@@ -93,7 +90,7 @@ return new class extends Migration
                 'ort' => 'Dortmund',
             ],
         ];
-        foreach($standorts as $standort) {
+        foreach ($standorts as $standort) {
             Standort::create([
                 'kurz' => $standort['kurz'],
                 'lang' => $standort['lang'],
@@ -104,7 +101,6 @@ return new class extends Migration
                 'ort' => $standort['ort'],
             ]);
         }
-
 
         $standort_bza = Standort::where('kurz', 'BZA')->first();
         $standort_soest = Standort::where('kurz', 'BZS')->first();
@@ -160,7 +156,7 @@ return new class extends Migration
                 'bezeichnung' => 'Kirche',
                 'zeichen' => 'K',
                 'standort_id' => $standort_bzh->id,
-            ],            
+            ],
             [
                 'bezeichnung' => 'Geb A (Turm)',
                 'zeichen' => 'A',
@@ -272,7 +268,7 @@ return new class extends Migration
             ],
 
         ];
-        foreach($gebaeudes as $gebaeude) {
+        foreach ($gebaeudes as $gebaeude) {
             Gebaeude::create([
                 'bezeichnung' => $gebaeude['bezeichnung'],
                 'zeichen' => $gebaeude['zeichen'],
@@ -313,10 +309,10 @@ return new class extends Migration
                 'zeichen' => '9',
             ],
         ];
-        foreach($etages as $etage) {
+        foreach ($etages as $etage) {
             Etage::create([
                 'bezeichnung' => $etage['bezeichnung'],
-                'zeichen' => $etage['zeichen'],            
+                'zeichen' => $etage['zeichen'],
             ]);
         }
 
@@ -349,56 +345,56 @@ return new class extends Migration
                 'bezeichnung' => 'Lager',
                 'bezeichnung_lang' => 'Lager (Schulungsmaterial, Gebäudereinigungsmittel ...)',
                 'raumart' => 'verwaltung',
-                'zeichen' => 'L',                
+                'zeichen' => 'L',
             ],
             [
                 'bezeichnung' => 'Flur',
                 'bezeichnung_lang' => 'Erschließungsflächen (Flur / Treppenhaus)',
                 'raumart' => 'verwaltung',
-                'zeichen' => 'E',                
+                'zeichen' => 'E',
             ],
             [
                 'bezeichnung' => 'Toilette',
                 'bezeichnung_lang' => 'Sanitär / Umkleide / Sanitätsraum',
                 'raumart' => 'verwaltung',
-                'zeichen' => 'S',                
+                'zeichen' => 'S',
             ],
             [
                 'bezeichnung' => 'Haustechnik',
                 'bezeichnung_lang' => 'Gebäudetechnik (Heizung, Lüftung, Aufzug …)',
                 'raumart' => 'verwaltung',
-                'zeichen' => 'G',                
+                'zeichen' => 'G',
             ],
             [
                 'bezeichnung' => 'Besprechungsraum',
                 'bezeichnung_lang' => 'Veranstaltungs- / Besprechungsraum (inkl. Kaue, Vortragssaal, Bistro …)',
                 'raumart' => 'verwaltung',
-                'zeichen' => 'V',                
+                'zeichen' => 'V',
             ],
             [
                 'bezeichnung' => 'Küche',
                 'bezeichnung_lang' => 'Kantine / Küche / Kiosk (inkl. Teeküche)',
                 'raumart' => 'verwaltung',
-                'zeichen' => 'K',                
+                'zeichen' => 'K',
             ],
-            
+
         ];
-        foreach($nutzungs as $nutzung) {
+        foreach ($nutzungs as $nutzung) {
             Nutzungsart::create([
                 'bezeichnung' => $nutzung['bezeichnung'],
                 'bezeichnung_lang' => $nutzung['bezeichnung_lang'],
                 'zeichen' => $nutzung['zeichen'],
-                'raumart' => $nutzung['raumart'],            
+                'raumart' => $nutzung['raumart'],
             ]);
         }
 
-        foreach(app(BueLaravel::class)->getFachbereiche() as $fb) {
+        foreach (app(BueLaravel::class)->getFachbereiche() as $fb) {
             Fachbereich::create([
-                'nr' => (int)$fb->id,
+                'nr' => (int) $fb->id,
                 'bezeichnung' => $fb->name,
-                'kst' => (int)$fb->kst,
+                'kst' => (int) $fb->kst,
             ]);
-        }        
+        }
     }
 
     /**
@@ -406,7 +402,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        
+
         DB::table('app_raumverwaltung_standorts')->truncate();
         DB::table('app_raumverwaltung_gebaeudes')->truncate();
         DB::table('app_raumverwaltung_nutzungsarts')->truncate();

@@ -3,8 +3,6 @@
 namespace App\Apps\Raumverwaltung\Listeners;
 
 use App\Apps\Raumverwaltung\Events\NutzungsartUpdated;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 
 class NutzungsartUpdatedListener
 {
@@ -21,9 +19,9 @@ class NutzungsartUpdatedListener
      */
     public function handle(NutzungsartUpdated $event): void
     {
-        if($event->nutzungsart->isDirty('zeichen')){
-            \Log::info('Nutzungsart Zeichen Updated: ' . $event->nutzungsart->zeichen);            
-            $event->nutzungsart->raums->each(function($raum){
+        if ($event->nutzungsart->isDirty('zeichen')) {
+            \Log::info('Nutzungsart Zeichen Updated: '.$event->nutzungsart->zeichen);
+            $event->nutzungsart->raums->each(function ($raum) {
                 $raum->update(['raumnr_neu' => $raum->generateMyNumber()]);
             });
         }

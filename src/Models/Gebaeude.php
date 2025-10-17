@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Gebaeude extends Model
 {
     protected $table = 'app_raumverwaltung_gebaeudes';
+
     protected $guarded = [];
-    
+
     public function standort()
     {
         return $this->belongsTo(Standort::class);

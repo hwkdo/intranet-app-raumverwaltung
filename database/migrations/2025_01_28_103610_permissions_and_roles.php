@@ -1,10 +1,7 @@
 <?php
 
 use Hwkdo\IntranetAppBase\IntranetAppBase;
-use Hwkdo\IntranetAppRaumverwaltung\IntranetAppRaumverwaltung;
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -16,21 +13,21 @@ return new class extends Migration
     public function up(): void
     {
         $permissions = IntranetAppBase::getRequiredPermissionsFromAppConfig(
-            config("intranet-app-raumverwaltung")
-          );
+            config('intranet-app-raumverwaltung')
+        );
 
-      foreach($permissions as $permission) {
-        Permission::create(['name' => $permission]);
-      }
+        foreach ($permissions as $permission) {
+            Permission::create(['name' => $permission]);
+        }
 
-      $roles = IntranetAppBase::getRolesWithPermissionsFromAppConfig(
-        config("intranet-app-raumverwaltung")
-      );
+        $roles = IntranetAppBase::getRolesWithPermissionsFromAppConfig(
+            config('intranet-app-raumverwaltung')
+        );
 
-      foreach($roles as $role) {
-        Role::create(['name' => $role['name']]);
-        $role->givePermissionTo($role['permissions']);
-      }
+        foreach ($roles as $role) {
+            Role::create(['name' => $role['name']]);
+            $role->givePermissionTo($role['permissions']);
+        }
     }
 
     /**
@@ -38,20 +35,20 @@ return new class extends Migration
      */
     public function down(): void
     {
-      $permissions = IntranetAppBase::getRequiredPermissionsFromAppConfig(
-        config("intranet-app-raumverwaltung")
-      );
+        $permissions = IntranetAppBase::getRequiredPermissionsFromAppConfig(
+            config('intranet-app-raumverwaltung')
+        );
 
-      foreach($permissions as $permission) {
-        Permission::where('name', $permission)->delete();
-      }
+        foreach ($permissions as $permission) {
+            Permission::where('name', $permission)->delete();
+        }
 
-      $roles = IntranetAppBase::getRequiredRolesFromAppConfig(
-        config("intranet-app-raumverwaltung")
-      );
+        $roles = IntranetAppBase::getRequiredRolesFromAppConfig(
+            config('intranet-app-raumverwaltung')
+        );
 
-      foreach($roles as $role) {
-        Role::where('name', $role['name'])->delete();
-      }
+        foreach ($roles as $role) {
+            Role::where('name', $role['name'])->delete();
+        }
     }
 };

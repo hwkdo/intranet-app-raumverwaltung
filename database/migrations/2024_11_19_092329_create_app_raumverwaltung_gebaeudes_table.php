@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('app_raumverwaltung_gebaeudes', function (Blueprint $table) {
             $table->id();
-            $table->string('bezeichnung');   
+            $table->string('bezeichnung');
             $table->string('zeichen');
             $table->string('strasse')->nullable();
             $table->integer('plz')->nullable();

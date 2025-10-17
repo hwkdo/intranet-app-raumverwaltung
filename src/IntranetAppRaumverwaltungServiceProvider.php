@@ -2,12 +2,12 @@
 
 namespace Hwkdo\IntranetAppRaumverwaltung;
 
-use Spatie\LaravelPackageTools\Package;
-use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Hwkdo\IntranetAppRaumverwaltung\Models\Raum;
 use Hwkdo\IntranetAppRaumverwaltung\Policies\RaumPolicy;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Volt\Volt;
+use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class IntranetAppRaumverwaltungServiceProvider extends PackageServiceProvider
 {
@@ -22,19 +22,25 @@ class IntranetAppRaumverwaltungServiceProvider extends PackageServiceProvider
             ->name('intranet-app-raumverwaltung')
             ->hasConfigFile()
             ->hasViews()
-            #->hasMigration('create_intranet_app_raumverwaltung_table')
-            #->hasRoute('web') #funk,tioniert nicht, muss trotzdem unten loadRoutesFrom machen
+            // ->hasMigration('create_intranet_app_raumverwaltung_table')
+            // ->hasRoute('web') #funk,tioniert nicht, muss trotzdem unten loadRoutesFrom machen
             ->discoversMigrations();
-            #->hasCommand(IntranetAppRaumverwaltungCommand::class);
-    }     
-    
+        // ->hasCommand(IntranetAppRaumverwaltungCommand::class);
+    }
+
     public function boot(): void
     {
+        parent::boot();
+
         Gate::policy(Raum::class, RaumPolicy::class);
-        $this->app->booted( function() {
-            Volt::mount(__DIR__.'/../resources/views/livewire');                        
+        $this->app->booted(function () {
+            Volt::mount(__DIR__.'/../resources/views/livewire');
         });
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
 
+        // Register Blade components
+        $this->loadViewComponentsAs('intranet-app-raumverwaltung', [
+            \Hwkdo\IntranetAppRaumverwaltung\View\Components\RaumverwaltungLayout::class,
+        ]);
     }
 }

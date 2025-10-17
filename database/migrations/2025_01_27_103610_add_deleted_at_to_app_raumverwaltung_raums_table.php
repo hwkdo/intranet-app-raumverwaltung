@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('app_raumverwaltung_raums', function (Blueprint $table) {
             $table->softDeletes();
-            
+
         });
     }
 

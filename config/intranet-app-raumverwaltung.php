@@ -8,13 +8,13 @@ return [
             'permissions' => [
                 'see-app-raumverwaltung',
                 'manage-app-raumverwaltung',
-            ]
+            ],
         ],
         'user' => [
             'name' => 'App-Raumverwaltung-Benutzer',
             'permissions' => [
-                'see-app-raumverwaltung',                
-            ]
+                'see-app-raumverwaltung',
+            ],
         ],
         'others' => [
             'verwaltung' => [
@@ -22,15 +22,15 @@ return [
                 'permissions' => [
                     'see-app-raumverwaltung',
                     'edit-app-raumverwaltung-verwaltung',
-                ]
+                ],
             ],
             'schulung' => [
                 'name' => 'App-Raumverwaltung-Bearbeiten-Schulung',
                 'permissions' => [
                     'see-app-raumverwaltung',
                     'edit-app-raumverwaltung-schulung',
-                ]
+                ],
             ],
         ],
-    ],    
+    ],
 ];

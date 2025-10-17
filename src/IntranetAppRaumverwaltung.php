@@ -1,6 +1,7 @@
 <?php
 
 namespace Hwkdo\IntranetAppRaumverwaltung;
+
 use Hwkdo\IntranetAppBase\Interfaces\IntranetAppInterface;
 use Illuminate\Support\Collection;
 
@@ -29,6 +30,5 @@ class IntranetAppRaumverwaltung implements IntranetAppInterface
     public static function roles_user(): Collection
     {
         return collect(config('intranet-app-raumverwaltung.roles.user'));
-    }    
-    
+    }
 }

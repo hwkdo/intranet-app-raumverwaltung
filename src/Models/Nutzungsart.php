@@ -9,9 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 class Nutzungsart extends Model
 {
     protected $table = 'app_raumverwaltung_nutzungsarts';
+
     protected $guarded = [];
+
     protected $casts = [
-        'raumart' => RaumartEnum::class
+        'raumart' => RaumartEnum::class,
     ];
 
     protected $dispatchesEvents = [

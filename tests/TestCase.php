@@ -2,9 +2,9 @@
 
 namespace Hwkdo\IntranetAppRaumverwaltung\Tests;
 
+use Hwkdo\IntranetAppRaumverwaltung\IntranetAppRaumverwaltungServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Hwkdo\IntranetAppRaumverwaltung\IntranetAppRaumverwaltungServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -27,11 +27,31 @@ class TestCase extends Orchestra
     public function getEnvironmentSetUp($app)
     {
         config()->set('database.default', 'testing');
+        config()->set('database.connections.testing', [
+            'driver' => 'sqlite',
+            'database' => ':memory:',
+            'prefix' => '',
+        ]);
 
-        /*
-         foreach (\Illuminate\Support\Facades\File::allFiles(__DIR__ . '/database/migrations') as $migration) {
-            (include $migration->getRealPath())->up();
-         }
-         */
+        $migration = include __DIR__.'/../database/migrations/2024_11_19_092328_create_app_raumverwaltung_standorts_table.php';
+        $migration->up();
+
+        $migration = include __DIR__.'/../database/migrations/2024_11_19_092329_create_app_raumverwaltung_gebaeudes_table.php';
+        $migration->up();
+
+        $migration = include __DIR__.'/../database/migrations/2024_11_19_092330_create_app_raumverwaltung_etages_table.php';
+        $migration->up();
+
+        $migration = include __DIR__.'/../database/migrations/2024_11_19_092914_create_app_raumverwaltung_nutzungsarts_table.php';
+        $migration->up();
+
+        $migration = include __DIR__.'/../database/migrations/2024_11_19_092915_create_app_raumverwaltung_fachbereichs_table.php';
+        $migration->up();
+
+        $migration = include __DIR__.'/../database/migrations/2024_11_19_092915_create_app_raumverwaltung_raums_table.php';
+        $migration->up();
+
+        $migration = include __DIR__.'/../database/migrations/2025_01_27_103610_add_deleted_at_to_app_raumverwaltung_raums_table.php';
+        $migration->up();
     }
 }

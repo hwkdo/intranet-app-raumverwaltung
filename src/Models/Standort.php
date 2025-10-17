@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Standort extends Model
 {
     protected $table = 'app_raumverwaltung_standorts';
-    protected $guarded = [];    
+
+    protected $guarded = [];
 
     public function gebaeude()
     {

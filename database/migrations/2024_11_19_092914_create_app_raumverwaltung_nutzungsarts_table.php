@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('bezeichnung');
             $table->string('bezeichnung_lang');
             $table->string('zeichen');
-            $table->string('raumart');            
+            $table->string('raumart');
             $table->timestamps();
         });
     }

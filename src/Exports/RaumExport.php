@@ -13,13 +13,14 @@ class RaumExport implements FromView
     {
         $this->raume = $raume;
     }
+
     /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function view() : View
-    {        
+     * @return \Illuminate\Support\Collection
+     */
+    public function view(): View
+    {
         return view('intranet-app-raumverwaltung::raume_xls', [
-            'raume' => $this->raume
-        ]);        
+            'raume' => $this->raume,
+        ]);
     }
 }

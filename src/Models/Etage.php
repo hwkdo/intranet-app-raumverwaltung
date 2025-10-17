@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Etage extends Model
 {
     protected $table = 'app_raumverwaltung_etages';
-    protected $guarded = [];    
+
+    protected $guarded = [];
 
     protected $dispatchesEvents = [
         'updated' => EtageUpdated::class,
