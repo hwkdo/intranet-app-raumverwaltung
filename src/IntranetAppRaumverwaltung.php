@@ -31,4 +31,14 @@ class IntranetAppRaumverwaltung implements IntranetAppInterface
     {
         return collect(config('intranet-app-raumverwaltung.roles.user'));
     }
+    
+    public static function userSettingsClass(): ?string
+    {
+        return null;
+    }
+    
+    public static function appSettingsClass(): ?string
+    {
+        return null;
+    }
 }
