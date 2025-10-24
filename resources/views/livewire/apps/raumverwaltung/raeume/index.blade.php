@@ -32,14 +32,8 @@ $delete = function (Raum $raum) {
 };
 
 ?>
-<section class="w-full">
-    <div class="relative mb-6 w-full">
-        <flux:heading size="xl" level="1">Raumverwaltung</flux:heading>
-        <flux:subheading size="lg" class="mb-6">Verwaltung von Räumen und Standorten</flux:subheading>
-        <flux:separator variant="subtle" />
-    </div>
-    
-    <x-intranet-app-raumverwaltung::raumverwaltung-layout>
+
+<x-intranet-app-raumverwaltung::raumverwaltung-layout heading="Räume" subheading="Verwalten Sie alle Räume">
         <div class="mb-6 flex items-center justify-between gap-4">
             <flux:input 
                 wire:model.live.debounce.300ms="search" 
@@ -95,6 +89,5 @@ $delete = function (Raum $raum) {
                 @endforeach
             </flux:table.rows>
         </flux:table>
-    </x-intranet-app-raumverwaltung::raumverwaltung-layout>
-</section>
+</x-intranet-app-raumverwaltung::raumverwaltung-layout>
 

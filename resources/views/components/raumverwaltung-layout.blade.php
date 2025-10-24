@@ -6,6 +6,7 @@
 
 @php
     $defaultNavItems = [
+        ['label' => 'Übersicht', 'href' => route('apps.raumverwaltung.index'), 'icon' => 'home', 'description' => 'Zurück zur Übersicht', 'buttonText' => 'Übersicht anzeigen'],
         ['label' => 'Standorte', 'href' => route('apps.raumverwaltung.standorte.index'), 'icon' => 'map-pin', 'description' => 'Standorte verwalten', 'buttonText' => 'Standorte anzeigen'],
         ['label' => 'Gebäude', 'href' => route('apps.raumverwaltung.gebaeude.index'), 'icon' => 'building-office', 'description' => 'Gebäude verwalten', 'buttonText' => 'Gebäude anzeigen'],
         ['label' => 'Etagen', 'href' => route('apps.raumverwaltung.etagen.index'), 'icon' => 'squares-2x2', 'description' => 'Etagen verwalten', 'buttonText' => 'Etagen anzeigen'],
@@ -19,12 +20,32 @@
     $navItems = !empty($navItems) ? $navItems : $defaultNavItems;
 @endphp
 
-<x-intranet-app-base::app-layout 
-    app-identifier="raumverwaltung"
-    :heading="$heading"
-    :subheading="$subheading"
-    :nav-items="$navItems"
->
-    {{ $slot }}
-</x-intranet-app-base::app-layout>
+@if(request()->routeIs('apps.raumverwaltung.index'))
+    <x-intranet-app-base::app-layout 
+        app-identifier="raumverwaltung"
+        :heading="$heading"
+        :subheading="$subheading"
+        :nav-items="$navItems"
+        :wrap-in-card="false"
+    >
+        <x-intranet-app-base::app-index-auto 
+            app-identifier="raumverwaltung"
+            app-name="Raumverwaltung"
+            app-description="Verwaltung von Räumen und Standorten"
+            :nav-items="$navItems"
+            welcome-title="Willkommen in der Raumverwaltung"
+            welcome-description="Hier können Sie alle Aspekte der Raumverwaltung verwalten, einschließlich Standorte, Gebäude, Etagen, Nutzungsarten, Fachbereiche und Räume."
+        />
+    </x-intranet-app-base::app-layout>
+@else
+    <x-intranet-app-base::app-layout 
+        app-identifier="raumverwaltung"
+        :heading="$heading"
+        :subheading="$subheading"
+        :nav-items="$navItems"
+        :wrap-in-card="true"
+    >
+        {{ $slot }}
+    </x-intranet-app-base::app-layout>
+@endif
 

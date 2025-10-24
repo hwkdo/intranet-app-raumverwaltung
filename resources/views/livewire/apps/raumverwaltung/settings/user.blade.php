@@ -6,6 +6,6 @@ title('Meine Einstellungen - Raumverwaltung');
 
 ?>
 
-<x-intranet-app-raumverwaltung::raumverwaltung-layout heading="Raumverwaltung" subheading="Meine Einstellungen">
-    <x-intranet-app-base::user-settings app-identifier="raumverwaltung" />
+<x-intranet-app-raumverwaltung::raumverwaltung-layout heading="Meine Einstellungen" subheading="Persönliche Einstellungen für die Raumverwaltung">
+    @livewire('intranet-app-base::user-settings', ['appIdentifier' => 'raumverwaltung'])
 </x-intranet-app-raumverwaltung::raumverwaltung-layout>
