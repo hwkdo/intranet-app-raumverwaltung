@@ -59,9 +59,9 @@ class Raum extends Model
         return Excel::download(new RaumExport($raume), 'raume.xlsx');
     }
 
-    public function getIstGueltigAttribute()
+    public function getIstGueltigAttribute(): bool
     {
-        return $this->gueltig_bis <= now() && $this->gueltig_ab >= now();
+        return $this->gueltig_ab <= now() && $this->gueltig_bis >= now();
     }
 
     public function etage()

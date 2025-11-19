@@ -40,14 +40,9 @@ $update = function () {
 };
 
 ?>
-<section class="w-full">
-    <div class="relative mb-6 w-full">
-        <flux:heading size="xl" level="1">Raumverwaltung</flux:heading>
-        <flux:subheading size="lg" class="mb-6">Verwaltung von Räumen und Standorten</flux:subheading>
-        <flux:separator variant="subtle" />
-    </div>
-    
-    <x-intranet-app-raumverwaltung::raumverwaltung-layout>
+
+<div>
+<x-intranet-app-raumverwaltung::raumverwaltung-layout heading="Nutzungsart bearbeiten" subheading="Nutzungsart bearbeiten">
         <flux:card>
             <flux:heading size="lg" class="mb-6">Nutzungsart bearbeiten</flux:heading>
             
@@ -92,5 +87,5 @@ $update = function () {
             </form>
         </flux:card>
     </x-intranet-app-raumverwaltung::raumverwaltung-layout>
-</section>
+</div>
 

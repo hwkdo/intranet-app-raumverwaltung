@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Apps\Raumverwaltung\Listeners;
+namespace Hwkdo\IntranetAppRaumverwaltung\Listeners;
 
-use App\Apps\Raumverwaltung\Events\GebaeudeUpdated;
+use Hwkdo\IntranetAppRaumverwaltung\Events\GebaeudeUpdated;
+use Illuminate\Support\Facades\Log;
 
 class GebaeudeUpdatedListener
 {
@@ -20,7 +21,7 @@ class GebaeudeUpdatedListener
     public function handle(GebaeudeUpdated $event): void
     {
         if ($event->gebaeude->isDirty('zeichen')) {
-            \Log::info('Gebaeude Zeichen Updated: '.$event->gebaeude->zeichen);
+            Log::info('Gebaeude Zeichen Updated: '.$event->gebaeude->zeichen);
             $event->gebaeude->raums->each(function ($raum) {
                 $raum->update(['raumnr_neu' => $raum->generateMyNumber()]);
             });

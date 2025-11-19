@@ -37,14 +37,9 @@ $save = function () {
 };
 
 ?>
-<section class="w-full">
-    <div class="relative mb-6 w-full">
-        <flux:heading size="xl" level="1">Raumverwaltung</flux:heading>
-        <flux:subheading size="lg" class="mb-6">Verwaltung von Räumen und Standorten</flux:subheading>
-        <flux:separator variant="subtle" />
-    </div>
-    
-    <x-intranet-app-raumverwaltung::raumverwaltung-layout>
+
+<div>
+<x-intranet-app-raumverwaltung::raumverwaltung-layout heading="Gebäude erstellen" subheading="Neues Gebäude anlegen">
         <flux:card>
             <flux:heading size="lg" class="mb-6">Neues Gebäude</flux:heading>
             
@@ -102,6 +97,5 @@ $save = function () {
                 </div>
             </form>
         </flux:card>
-    </x-intranet-app-raumverwaltung::raumverwaltung-layout>
-</section>
-
+</x-intranet-app-raumverwaltung::raumverwaltung-layout>
+</div>

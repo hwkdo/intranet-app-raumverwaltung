@@ -2,7 +2,10 @@
 
 use Flux\Flux;
 use Hwkdo\IntranetAppRaumverwaltung\Models\Fachbereich;
-use function Livewire\Volt\{state, title, computed, mount};
+
+use function Livewire\Volt\{state, title, computed, mount, usesPagination};
+
+usesPagination();
 
 title('Fachbereiche');
 
@@ -31,14 +34,9 @@ $delete = function (Fachbereich $fachbereich) {
 };
 
 ?>
-<section class="w-full">
-    <div class="relative mb-6 w-full">
-        <flux:heading size="xl" level="1">Raumverwaltung</flux:heading>
-        <flux:subheading size="lg" class="mb-6">Verwaltung von Räumen und Standorten</flux:subheading>
-        <flux:separator variant="subtle" />
-    </div>
-    
-    <x-intranet-app-raumverwaltung::raumverwaltung-layout>
+
+<div>
+<x-intranet-app-raumverwaltung::raumverwaltung-layout heading="Fachbereiche" subheading="Verwalten Sie alle Fachbereiche">
         <div class="mb-6 flex items-center justify-between gap-4">
             <flux:input 
                 wire:model.live.debounce.300ms="search" 
@@ -86,6 +84,5 @@ $delete = function (Fachbereich $fachbereich) {
                 @endforeach
             </flux:table.rows>
         </flux:table>
-    </x-intranet-app-raumverwaltung::raumverwaltung-layout>
-</section>
-
+</x-intranet-app-raumverwaltung::raumverwaltung-layout>
+</div>

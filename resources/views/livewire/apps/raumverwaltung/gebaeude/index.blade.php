@@ -2,7 +2,10 @@
 
 use Flux\Flux;
 use Hwkdo\IntranetAppRaumverwaltung\Models\Gebaeude;
-use function Livewire\Volt\{state, title, computed, mount};
+
+use function Livewire\Volt\{state, title, computed, mount, usesPagination};
+
+usesPagination();
 
 title('Gebäude');
 
@@ -33,6 +36,7 @@ $delete = function (Gebaeude $gebaeude) {
 
 ?>
 
+<div>
 <x-intranet-app-raumverwaltung::raumverwaltung-layout heading="Gebäude" subheading="Verwalten Sie alle Gebäude">
         <div class="mb-6 flex items-center justify-between gap-4">
             <flux:input 
@@ -88,4 +92,4 @@ $delete = function (Gebaeude $gebaeude) {
             </flux:table.rows>
         </flux:table>
 </x-intranet-app-raumverwaltung::raumverwaltung-layout>
-
+</div>

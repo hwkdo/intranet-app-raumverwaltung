@@ -1,58 +1,106 @@
 <?php
 
-use Hwkdo\IntranetAppRaumverwaltung\Models\{Raum, Gebaeude, Etage, Nutzungsart, Fachbereich};
+use Flux\Flux;
 use Hwkdo\IntranetAppRaumverwaltung\Enums\PriSekEnum;
-use function Livewire\Volt\{state, title, rules, computed};
+use Hwkdo\IntranetAppRaumverwaltung\Models\{Raum, Gebaeude, Etage, Nutzungsart, Fachbereich, Standort};
+use function Livewire\Volt\{state, title, computed, mount};
 
 title('Raum erstellen');
 
 state([
-    'raumnummer' => '',
+    'lfd_nr' => null,
+    'bue_id' => null,
+    'itexia_id' => null,
+    'gueltig_ab' => null,
+    'gueltig_bis' => null,
     'kurzzeichen' => '',
     'druckbezeichnung' => '',
-    'gebaeude_id' => '',
-    'etage_id' => '',
-    'nutzungsart_id' => '',
-    'fachbereich_id' => '',
-    'plaetze' => '',
-    'plaetze_ff' => '',
-    'qm' => '',
+    'raumnummer' => '',
+    'standort_id' => null,
+    'gebaeude_id' => null,
+    'gebaeude_extern' => '',
+    'nutzungsart_id' => null,
+    'plaetze' => null,
+    'plaetze_ff' => null,
+    'qm' => null,
     'strasse' => '',
-    'plz' => '',
+    'plz' => null,
     'ort' => '',
-    'pri_sek' => '',
-    'gueltig_ab' => '',
-    'gueltig_bis' => '',
+    'raumnr_neu' => '',
+    'raumnr_vorgaenger' => '',
+    'raumnr_nachfolger' => '',
+    'fachbereich_id' => null,
+    'hpi_lfd_nr' => null,
+    'hpi_anzahl_einheiten' => null,
     'bemerkung' => '',
+    'einheit_gueltig_ab' => null,
+    'einheit_gueltig_bis' => null,
+    'etage_id' => null,
+    'pri_sek' => null,
 ]);
 
-$gebaeude = computed(fn() => Gebaeude::with('standort')->orderBy('bezeichnung')->get());
+$standorte = computed(fn() => Standort::orderBy('kurz')->get());
+
+$gebaeude = computed(function () {
+    if ($this->standort_id) {
+        return Gebaeude::where('standort_id', $this->standort_id)->with('standort')->orderBy('bezeichnung')->get();
+    }
+    return Gebaeude::with('standort')->orderBy('bezeichnung')->get();
+});
+
 $etagen = computed(fn() => Etage::orderBy('bezeichnung')->get());
 $nutzungsarten = computed(fn() => Nutzungsart::orderBy('bezeichnung')->get());
 $fachbereiche = computed(fn() => Fachbereich::orderBy('bezeichnung')->get());
 
-rules([
-    'raumnummer' => 'nullable|string|max:255',
-    'kurzzeichen' => 'nullable|string|max:255',
-    'druckbezeichnung' => 'nullable|string|max:255',
-    'gebaeude_id' => 'nullable|exists:app_raumverwaltung_gebaeudes,id',
-    'etage_id' => 'nullable|exists:app_raumverwaltung_etages,id',
-    'nutzungsart_id' => 'nullable|exists:app_raumverwaltung_nutzungsarts,id',
-    'fachbereich_id' => 'nullable|exists:app_raumverwaltung_fachbereichs,id',
-    'plaetze' => 'nullable|integer',
-    'plaetze_ff' => 'nullable|integer',
-    'qm' => 'nullable|numeric',
-    'strasse' => 'nullable|string|max:255',
-    'plz' => 'nullable|integer',
-    'ort' => 'nullable|string|max:255',
-    'pri_sek' => 'nullable|string',
-    'gueltig_ab' => 'nullable|date',
-    'gueltig_bis' => 'nullable|date',
-    'bemerkung' => 'nullable|string',
-]);
+$generatedNumber = computed(function () {
+    if ($this->gebaeude_id && $this->etage_id && $this->nutzungsart_id && $this->lfd_nr) {
+        try {
+            return Raum::generateNumber($this->gebaeude_id, $this->etage_id, $this->nutzungsart_id, $this->lfd_nr);
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+    return null;
+});
+
+$updateRaumnummer = function () {
+    $this->raumnr_neu = $this->generatedNumber;
+};
 
 $save = function () {
-    $validated = $this->validate();
+    // Automatisch raumnr_neu setzen
+    $this->raumnr_neu = $this->generatedNumber;
+    
+    $validated = $this->validate([
+        'lfd_nr' => ['required', 'integer'],
+        'bue_id' => ['nullable', 'integer'],
+        'itexia_id' => ['nullable', 'integer'],
+        'gueltig_ab' => ['nullable', 'date'],
+        'gueltig_bis' => ['nullable', 'date'],
+        'kurzzeichen' => ['nullable', 'string', 'max:255'],
+        'druckbezeichnung' => ['nullable', 'string', 'max:255'],
+        'raumnummer' => ['nullable', 'string', 'max:255'],
+        'gebaeude_id' => ['required', 'integer', 'exists:app_raumverwaltung_gebaeudes,id'],
+        'gebaeude_extern' => ['nullable', 'string', 'max:255'],
+        'plaetze' => ['nullable', 'integer'],
+        'plaetze_ff' => ['nullable', 'integer'],
+        'qm' => ['nullable', 'numeric'],
+        'strasse' => ['nullable', 'string', 'max:255'],
+        'plz' => ['nullable', 'integer'],
+        'ort' => ['nullable', 'string', 'max:255'],
+        'raumnr_neu' => ['required', 'string', 'max:255', 'unique:app_raumverwaltung_raums,raumnr_neu'],
+        'raumnr_vorgaenger' => ['nullable', 'string', 'max:255'],
+        'raumnr_nachfolger' => ['nullable', 'string', 'max:255'],
+        'fachbereich_id' => ['nullable', 'exists:app_raumverwaltung_fachbereichs,id'],
+        'hpi_lfd_nr' => ['nullable', 'integer'],
+        'hpi_anzahl_einheiten' => ['nullable', 'integer'],
+        'bemerkung' => ['nullable', 'string'],
+        'einheit_gueltig_ab' => ['nullable', 'date'],
+        'einheit_gueltig_bis' => ['nullable', 'date'],
+        'etage_id' => ['required', 'integer', 'exists:app_raumverwaltung_etages,id'],
+        'pri_sek' => ['nullable', 'string'],
+        'nutzungsart_id' => ['required', 'integer', 'exists:app_raumverwaltung_nutzungsarts,id'],
+    ]);
     
     Raum::create($validated);
     
@@ -62,157 +110,287 @@ $save = function () {
 };
 
 ?>
-<section class="w-full">
-    <div class="relative mb-6 w-full">
-        <flux:heading size="xl" level="1">Raumverwaltung</flux:heading>
-        <flux:subheading size="lg" class="mb-6">Verwaltung von Räumen und Standorten</flux:subheading>
-        <flux:separator variant="subtle" />
-    </div>
-    
-    <x-intranet-app-raumverwaltung::raumverwaltung-layout>
-        <flux:card>
-            <flux:heading size="lg" class="mb-6">Neuer Raum</flux:heading>
+
+<div>
+<x-intranet-app-raumverwaltung::raumverwaltung-layout heading="Neuer Raum" subheading="Raum erstellen">
+    <flux:card>
+        <!-- Live-Vorschau der generierten Raumnummer -->
+        <div class="mb-6 rounded-lg border p-4 @if($this->generatedNumber) bg-green-50 border-green-200 dark:bg-green-950 dark:border-green-800 @else bg-gray-50 border-gray-200 dark:bg-gray-900 dark:border-gray-700 @endif">
+            <flux:heading size="lg" class="mb-4">Generierte Raumnummer</flux:heading>
             
-            <form wire:submit="save" class="space-y-6">
+            @if($this->generatedNumber)
+                <div class="text-2xl font-bold text-green-700 dark:text-green-300">
+                    {{ $this->generatedNumber }}
+                </div>
+            @else
+                <div class="text-gray-500 dark:text-gray-400">
+                    Bitte füllen Sie alle Pflichtfelder aus
+                </div>
+            @endif
+            
+            <!-- Status-Indikatoren -->
+            <div class="mt-4 grid grid-cols-2 gap-2 md:grid-cols-4">
+                <div class="flex items-center gap-2">
+                    @if($gebaeude_id)
+                        <span class="text-green-600 dark:text-green-400">✓</span>
+                        <span class="text-sm text-green-700 dark:text-green-300">Gebäude OK</span>
+                    @else
+                        <span class="text-red-600 dark:text-red-400">✗</span>
+                        <span class="text-sm text-red-700 dark:text-red-300">Gebäude fehlt</span>
+                    @endif
+                </div>
+                
+                <div class="flex items-center gap-2">
+                    @if($etage_id)
+                        <span class="text-green-600 dark:text-green-400">✓</span>
+                        <span class="text-sm text-green-700 dark:text-green-300">Etage OK</span>
+                    @else
+                        <span class="text-red-600 dark:text-red-400">✗</span>
+                        <span class="text-sm text-red-700 dark:text-red-300">Etage fehlt</span>
+                    @endif
+                </div>
+                
+                <div class="flex items-center gap-2">
+                    @if($nutzungsart_id)
+                        <span class="text-green-600 dark:text-green-400">✓</span>
+                        <span class="text-sm text-green-700 dark:text-green-300">Nutzungsart OK</span>
+                    @else
+                        <span class="text-red-600 dark:text-red-400">✗</span>
+                        <span class="text-sm text-red-700 dark:text-red-300">Nutzungsart fehlt</span>
+                    @endif
+                </div>
+                
+                <div class="flex items-center gap-2">
+                    @if($lfd_nr)
+                        <span class="text-green-600 dark:text-green-400">✓</span>
+                        <span class="text-sm text-green-700 dark:text-green-300">Lfd. Nr. OK</span>
+                    @else
+                        <span class="text-red-600 dark:text-red-400">✗</span>
+                        <span class="text-sm text-red-700 dark:text-red-300">Lfd. Nr. fehlt</span>
+                    @endif
+                </div>
+            </div>
+        </div>
+        
+        <form wire:submit="save" class="space-y-6">
+            <!-- Pflichtfelder Section -->
+            <div class="rounded-lg border-2 border-blue-300 bg-blue-50 p-6 dark:border-blue-700 dark:bg-blue-950">
+                <flux:heading size="lg" class="mb-4 text-blue-900 dark:text-blue-100">Pflichtfelder für Raumnummerngenerierung</flux:heading>
+                
                 <div class="grid gap-6 md:grid-cols-2">
                     <flux:field>
-                        <flux:label>Raumnummer</flux:label>
-                        <flux:input wire:model="raumnummer" />
-                        <flux:error name="raumnummer" />
+                        <flux:label>Standort (für Filterung)</flux:label>
+                        <flux:select wire:model.live="standort_id">
+                            <option value="">Bitte wählen...</option>
+                            @foreach($this->standorte as $item)
+                                <option value="{{ $item->id }}">{{ $item->kurz }} - {{ $item->lang }}</option>
+                            @endforeach
+                        </flux:select>
                     </flux:field>
                     
                     <flux:field>
-                        <flux:label>Kurzzeichen</flux:label>
-                        <flux:input wire:model="kurzzeichen" />
-                        <flux:error name="kurzzeichen" />
-                    </flux:field>
-                    
-                    <flux:field class="md:col-span-2">
-                        <flux:label>Druckbezeichnung</flux:label>
-                        <flux:input wire:model="druckbezeichnung" />
-                        <flux:error name="druckbezeichnung" />
-                    </flux:field>
-                    
-                    <flux:field>
-                        <flux:label>Gebäude</flux:label>
-                        <flux:select wire:model="gebaeude_id">
+                        <flux:label>Gebäude *</flux:label>
+                        <flux:select wire:model.live="gebaeude_id">
                             <option value="">Bitte wählen...</option>
                             @foreach($this->gebaeude as $item)
-                                <option value="{{ $item->id }}">{{ $item->bezeichnung }} ({{ $item->standort?->kurz }})</option>
+                                <option value="{{ $item->id }}">{{ $item->bezeichnung }} ({{ $item->standort->kurz }})</option>
                             @endforeach
                         </flux:select>
                         <flux:error name="gebaeude_id" />
                     </flux:field>
                     
                     <flux:field>
-                        <flux:label>Etage</flux:label>
-                        <flux:select wire:model="etage_id">
+                        <flux:label>Etage *</flux:label>
+                        <flux:select wire:model.live="etage_id">
                             <option value="">Bitte wählen...</option>
-                            @foreach($this->etagen as $etage)
-                                <option value="{{ $etage->id }}">{{ $etage->bezeichnung }}</option>
+                            @foreach($this->etagen as $item)
+                                <option value="{{ $item->id }}">{{ $item->bezeichnung }}</option>
                             @endforeach
                         </flux:select>
                         <flux:error name="etage_id" />
                     </flux:field>
                     
                     <flux:field>
-                        <flux:label>Nutzungsart</flux:label>
-                        <flux:select wire:model="nutzungsart_id">
+                        <flux:label>Nutzungsart *</flux:label>
+                        <flux:select wire:model.live="nutzungsart_id">
                             <option value="">Bitte wählen...</option>
-                            @foreach($this->nutzungsarten as $nutzungsart)
-                                <option value="{{ $nutzungsart->id }}">{{ $nutzungsart->bezeichnung }}</option>
+                            @foreach($this->nutzungsarten as $item)
+                                <option value="{{ $item->id }}">{{ $item->bezeichnung }} ({{ $item->raumart->name }})</option>
                             @endforeach
                         </flux:select>
                         <flux:error name="nutzungsart_id" />
                     </flux:field>
                     
                     <flux:field>
-                        <flux:label>Fachbereich</flux:label>
-                        <flux:select wire:model="fachbereich_id">
-                            <option value="">Bitte wählen...</option>
-                            @foreach($this->fachbereiche as $fachbereich)
-                                <option value="{{ $fachbereich->id }}">{{ $fachbereich->bezeichnung }}</option>
-                            @endforeach
-                        </flux:select>
-                        <flux:error name="fachbereich_id" />
+                        <flux:label>Laufende Nummer *</flux:label>
+                        <flux:input wire:model.live="lfd_nr" type="number" />
+                        <flux:error name="lfd_nr" />
                     </flux:field>
                     
                     <flux:field>
-                        <flux:label>Quadratmeter</flux:label>
-                        <flux:input wire:model="qm" type="number" step="0.01" />
-                        <flux:error name="qm" />
-                    </flux:field>
-                    
-                    <flux:field>
-                        <flux:label>Plätze</flux:label>
-                        <flux:input wire:model="plaetze" type="number" />
-                        <flux:error name="plaetze" />
-                    </flux:field>
-                    
-                    <flux:field>
-                        <flux:label>Plätze FF</flux:label>
-                        <flux:input wire:model="plaetze_ff" type="number" />
-                        <flux:error name="plaetze_ff" />
-                    </flux:field>
-                    
-                    <flux:field>
-                        <flux:label>Primär/Sekundär</flux:label>
-                        <flux:select wire:model="pri_sek">
-                            <option value="">Bitte wählen...</option>
-                            @foreach(PriSekEnum::cases() as $priSek)
-                                <option value="{{ $priSek->value }}">{{ $priSek->name }}</option>
-                            @endforeach
-                        </flux:select>
-                        <flux:error name="pri_sek" />
-                    </flux:field>
-                    
-                    <flux:field class="md:col-span-2">
-                        <flux:label>Straße</flux:label>
-                        <flux:input wire:model="strasse" />
-                        <flux:error name="strasse" />
-                    </flux:field>
-                    
-                    <flux:field>
-                        <flux:label>PLZ</flux:label>
-                        <flux:input wire:model="plz" type="number" />
-                        <flux:error name="plz" />
-                    </flux:field>
-                    
-                    <flux:field>
-                        <flux:label>Ort</flux:label>
-                        <flux:input wire:model="ort" />
-                        <flux:error name="ort" />
-                    </flux:field>
-                    
-                    <flux:field>
-                        <flux:label>Gültig ab</flux:label>
-                        <flux:input wire:model="gueltig_ab" type="date" />
-                        <flux:error name="gueltig_ab" />
-                    </flux:field>
-                    
-                    <flux:field>
-                        <flux:label>Gültig bis</flux:label>
-                        <flux:input wire:model="gueltig_bis" type="date" />
-                        <flux:error name="gueltig_bis" />
-                    </flux:field>
-                    
-                    <flux:field class="md:col-span-2">
-                        <flux:label>Bemerkung</flux:label>
-                        <flux:textarea wire:model="bemerkung" rows="3" />
-                        <flux:error name="bemerkung" />
+                        <flux:label>Neue Raumnummer (automatisch generiert) *</flux:label>
+                        <flux:input wire:model="raumnr_neu" readonly class="bg-gray-100 dark:bg-gray-800" />
+                        <flux:error name="raumnr_neu" />
                     </flux:field>
                 </div>
+            </div>
+            
+            <!-- Weitere Felder -->
+            <div class="grid gap-6 md:grid-cols-2">
+                <flux:field>
+                    <flux:label>BUE ID</flux:label>
+                    <flux:input wire:model="bue_id" type="number" />
+                    <flux:error name="bue_id" />
+                </flux:field>
                 
-                <div class="flex justify-end gap-2">
-                    <flux:button variant="ghost" :href="route('apps.raumverwaltung.raeume.index')" wire:navigate>
-                        Abbrechen
-                    </flux:button>
-                    <flux:button type="submit" variant="primary">
-                        Speichern
-                    </flux:button>
-                </div>
-            </form>
-        </flux:card>
-    </x-intranet-app-raumverwaltung::raumverwaltung-layout>
-</section>
-
+                <flux:field>
+                    <flux:label>Itexia ID</flux:label>
+                    <flux:input wire:model="itexia_id" type="number" />
+                    <flux:error name="itexia_id" />
+                </flux:field>
+                
+                <flux:field>
+                    <flux:label>Gültig ab</flux:label>
+                    <flux:input wire:model="gueltig_ab" type="date" />
+                    <flux:error name="gueltig_ab" />
+                </flux:field>
+                
+                <flux:field>
+                    <flux:label>Gültig bis</flux:label>
+                    <flux:input wire:model="gueltig_bis" type="date" />
+                    <flux:error name="gueltig_bis" />
+                </flux:field>
+                
+                <flux:field>
+                    <flux:label>Kurzzeichen</flux:label>
+                    <flux:input wire:model="kurzzeichen" />
+                    <flux:error name="kurzzeichen" />
+                </flux:field>
+                
+                <flux:field class="md:col-span-2">
+                    <flux:label>Druckbezeichnung</flux:label>
+                    <flux:input wire:model="druckbezeichnung" />
+                    <flux:error name="druckbezeichnung" />
+                </flux:field>
+                
+                <flux:field>
+                    <flux:label>Raumnummer (Alt/Bisher)</flux:label>
+                    <flux:input wire:model="raumnummer" />
+                    <flux:error name="raumnummer" />
+                </flux:field>
+                
+                <flux:field>
+                    <flux:label>Gebäude Extern</flux:label>
+                    <flux:input wire:model="gebaeude_extern" />
+                    <flux:error name="gebaeude_extern" />
+                </flux:field>
+                
+                <flux:field>
+                    <flux:label>Plätze</flux:label>
+                    <flux:input wire:model="plaetze" type="number" />
+                    <flux:error name="plaetze" />
+                </flux:field>
+                
+                <flux:field>
+                    <flux:label>Plätze FF</flux:label>
+                    <flux:input wire:model="plaetze_ff" type="number" />
+                    <flux:error name="plaetze_ff" />
+                </flux:field>
+                
+                <flux:field>
+                    <flux:label>Quadratmeter</flux:label>
+                    <flux:input wire:model="qm" type="number" step="0.01" />
+                    <flux:error name="qm" />
+                </flux:field>
+                
+                <flux:field>
+                    <flux:label>Straße</flux:label>
+                    <flux:input wire:model="strasse" />
+                    <flux:error name="strasse" />
+                </flux:field>
+                
+                <flux:field>
+                    <flux:label>PLZ</flux:label>
+                    <flux:input wire:model="plz" type="number" />
+                    <flux:error name="plz" />
+                </flux:field>
+                
+                <flux:field>
+                    <flux:label>Ort</flux:label>
+                    <flux:input wire:model="ort" />
+                    <flux:error name="ort" />
+                </flux:field>
+                
+                <flux:field>
+                    <flux:label>Vorgänger Raumnummer</flux:label>
+                    <flux:input wire:model="raumnr_vorgaenger" />
+                    <flux:error name="raumnr_vorgaenger" />
+                </flux:field>
+                
+                <flux:field>
+                    <flux:label>Nachfolger Raumnummer</flux:label>
+                    <flux:input wire:model="raumnr_nachfolger" />
+                    <flux:error name="raumnr_nachfolger" />
+                </flux:field>
+                
+                <flux:field>
+                    <flux:label>Fachbereich</flux:label>
+                    <flux:select wire:model="fachbereich_id">
+                        <option value="">Bitte wählen...</option>
+                        @foreach($this->fachbereiche as $item)
+                            <option value="{{ $item->id }}">{{ $item->bezeichnung }}</option>
+                        @endforeach
+                    </flux:select>
+                    <flux:error name="fachbereich_id" />
+                </flux:field>
+                
+                <flux:field>
+                    <flux:label>HPI Laufende Nummer</flux:label>
+                    <flux:input wire:model="hpi_lfd_nr" type="number" />
+                    <flux:error name="hpi_lfd_nr" />
+                </flux:field>
+                
+                <flux:field>
+                    <flux:label>HPI Anzahl Einheiten</flux:label>
+                    <flux:input wire:model="hpi_anzahl_einheiten" type="number" />
+                    <flux:error name="hpi_anzahl_einheiten" />
+                </flux:field>
+                
+                <flux:field class="md:col-span-2">
+                    <flux:label>Bemerkung</flux:label>
+                    <flux:textarea wire:model="bemerkung" rows="3" />
+                    <flux:error name="bemerkung" />
+                </flux:field>
+                
+                <flux:field>
+                    <flux:label>Einheit gültig ab</flux:label>
+                    <flux:input wire:model="einheit_gueltig_ab" type="date" />
+                    <flux:error name="einheit_gueltig_ab" />
+                </flux:field>
+                
+                <flux:field>
+                    <flux:label>Einheit gültig bis</flux:label>
+                    <flux:input wire:model="einheit_gueltig_bis" type="date" />
+                    <flux:error name="einheit_gueltig_bis" />
+                </flux:field>
+                
+                <flux:field>
+                    <flux:label>Pri/Sek</flux:label>
+                    <flux:select wire:model="pri_sek">
+                        <option value="">Bitte wählen...</option>
+                        @foreach(PriSekEnum::cases() as $case)
+                            <option value="{{ $case->value }}">{{ $case->name }}</option>
+                        @endforeach
+                    </flux:select>
+                    <flux:error name="pri_sek" />
+                </flux:field>
+            </div>
+            
+            <div class="flex gap-4">
+                <flux:button type="submit" variant="primary">Speichern</flux:button>
+                <flux:button :href="route('apps.raumverwaltung.raeume.index')" wire:navigate variant="ghost">Abbrechen</flux:button>
+            </div>
+        </form>
+    </flux:card>
+</x-intranet-app-raumverwaltung::raumverwaltung-layout>
+</div>

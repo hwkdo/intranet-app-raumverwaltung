@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Apps\Raumverwaltung\Listeners;
+namespace Hwkdo\IntranetAppRaumverwaltung\Listeners;
 
-use App\Apps\Raumverwaltung\Events\NutzungsartUpdated;
+use Hwkdo\IntranetAppRaumverwaltung\Events\NutzungsartUpdated;
+use Illuminate\Support\Facades\Log;
 
 class NutzungsartUpdatedListener
 {
@@ -20,7 +21,7 @@ class NutzungsartUpdatedListener
     public function handle(NutzungsartUpdated $event): void
     {
         if ($event->nutzungsart->isDirty('zeichen')) {
-            \Log::info('Nutzungsart Zeichen Updated: '.$event->nutzungsart->zeichen);
+            Log::info('Nutzungsart Zeichen Updated: '.$event->nutzungsart->zeichen);
             $event->nutzungsart->raums->each(function ($raum) {
                 $raum->update(['raumnr_neu' => $raum->generateMyNumber()]);
             });

@@ -35,6 +35,10 @@ Route::middleware(['web', 'auth', 'can:see-app-raumverwaltung'])->group(function
     Volt::route('apps/raumverwaltung/raeume', 'apps.raumverwaltung.raeume.index')->name('apps.raumverwaltung.raeume.index');
     Volt::route('apps/raumverwaltung/raeume/create', 'apps.raumverwaltung.raeume.create')->name('apps.raumverwaltung.raeume.create');
     Volt::route('apps/raumverwaltung/raeume/{raum}/edit', 'apps.raumverwaltung.raeume.edit')->name('apps.raumverwaltung.raeume.edit');
+    Volt::route('apps/raumverwaltung/raeume/{raum}/versions', 'apps.raumverwaltung.raeume.versions')->name('apps.raumverwaltung.raeume.versions');
+    
+    // Ereignisse
+    Volt::route('apps/raumverwaltung/ereignisse', 'apps.raumverwaltung.ereignisse.index')->name('apps.raumverwaltung.ereignisse.index');
     
     // Settings
     Volt::route('apps/raumverwaltung/settings/user', 'apps.raumverwaltung.settings.user')->name('apps.raumverwaltung.settings.user');

@@ -8,6 +8,7 @@ state(['activeTab' => 'einstellungen']);
 
 ?>
 
+<div>
 <x-intranet-app-raumverwaltung::raumverwaltung-layout heading="Raumverwaltung" subheading="Admin">
     <flux:tab.group>
         <flux:tabs wire:model="activeTab">
@@ -54,3 +55,4 @@ state(['activeTab' => 'einstellungen']);
         </flux:tab.panel>
     </flux:tab.group>
 </x-intranet-app-raumverwaltung::raumverwaltung-layout>
+</div>

@@ -16,7 +16,7 @@ class IntranetAppRaumverwaltungSettings extends Model
         ];
     }
 
-    public static function current(): IntranetAppRaumverwaltungSettings|null
+    public static function current(): ?IntranetAppRaumverwaltungSettings
     {
         return self::orderBy('version', 'desc')->first();
     }

@@ -2,8 +2,15 @@
 
 namespace Hwkdo\IntranetAppRaumverwaltung;
 
+use Hwkdo\IntranetAppRaumverwaltung\Events\EtageUpdated;
+use Hwkdo\IntranetAppRaumverwaltung\Events\GebaeudeUpdated;
+use Hwkdo\IntranetAppRaumverwaltung\Events\NutzungsartUpdated;
+use Hwkdo\IntranetAppRaumverwaltung\Listeners\EtageUpdatedListener;
+use Hwkdo\IntranetAppRaumverwaltung\Listeners\GebaeudeUpdatedListener;
+use Hwkdo\IntranetAppRaumverwaltung\Listeners\NutzungsartUpdatedListener;
 use Hwkdo\IntranetAppRaumverwaltung\Models\Raum;
 use Hwkdo\IntranetAppRaumverwaltung\Policies\RaumPolicy;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Volt\Volt;
 use Spatie\LaravelPackageTools\Package;
@@ -42,5 +49,10 @@ class IntranetAppRaumverwaltungServiceProvider extends PackageServiceProvider
         $this->loadViewComponentsAs('intranet-app-raumverwaltung', [
             \Hwkdo\IntranetAppRaumverwaltung\View\Components\RaumverwaltungLayout::class,
         ]);
+
+        // Register Event Listeners
+        Event::listen(GebaeudeUpdated::class, GebaeudeUpdatedListener::class);
+        Event::listen(EtageUpdated::class, EtageUpdatedListener::class);
+        Event::listen(NutzungsartUpdated::class, NutzungsartUpdatedListener::class);
     }
 }

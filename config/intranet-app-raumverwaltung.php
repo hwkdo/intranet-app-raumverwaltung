@@ -33,4 +33,10 @@ return [
             ],
         ],
     ],
+    'rollen' => [
+        'rw' => [
+            'verwaltung' => ['App-Raumverwaltung-Bearbeiten-Verwaltung'],
+            'schulung' => ['App-Raumverwaltung-Bearbeiten-Schulung'],
+        ],
+    ],
 ];
