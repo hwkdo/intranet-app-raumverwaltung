@@ -2,8 +2,10 @@
 
 namespace Hwkdo\IntranetAppRaumverwaltung\Models;
 
+use Hwkdo\BueLaravel\Facades\BueLaravel;
 use Hwkdo\IntranetAppRaumverwaltung\Enums\PriSekEnum;
 use Hwkdo\IntranetAppRaumverwaltung\Exports\RaumExport;
+use Hwkdo\SeventhingsLaravel\SeventhingsLaravelFacade;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Maatwebsite\Excel\Facades\Excel;
@@ -62,6 +64,16 @@ class Raum extends Model
     public function getIstGueltigAttribute(): bool
     {
         return $this->gueltig_ab <= now() && $this->gueltig_bis >= now();
+    }
+
+    public function bue()
+    {
+        return $this->bue_id ? BueLaravel::getRaumById($this->bue_id) : false;
+    }
+
+    public function itexia()
+    {
+        return $this->itexia_id ? SeventhingsLaravelFacade::findRaumById($this->itexia_id) : false;
     }
 
     public function etage()
