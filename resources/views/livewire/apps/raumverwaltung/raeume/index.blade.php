@@ -286,6 +286,17 @@ $exportExcel = function () {
                                     />
                                 @endcan
                                 
+                                @if(($raum->bue_id || $raum->itexia_id) && Gate::allows('view', $raum))
+                                    <flux:button 
+                                        size="sm" 
+                                        variant="ghost" 
+                                        icon="arrows-right-left" 
+                                        :href="route('apps.raumverwaltung.raeume.compare', $raum)" 
+                                        wire:navigate
+                                        title="Vergleich anzeigen"
+                                    />
+                                @endif
+                                
                                 @can('delete', $raum)
                                     <flux:button 
                                         size="sm" 

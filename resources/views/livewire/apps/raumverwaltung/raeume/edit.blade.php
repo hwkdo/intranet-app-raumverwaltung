@@ -432,6 +432,11 @@ $save = function () {
             
             <div class="flex gap-4">
                 <flux:button type="submit" variant="primary">Speichern</flux:button>
+                @if($raum->bue_id || $raum->itexia_id)
+                    <flux:button :href="route('apps.raumverwaltung.raeume.compare', $raum)" wire:navigate variant="outline">
+                        Vergleich anzeigen
+                    </flux:button>
+                @endif
                 <flux:button :href="route('apps.raumverwaltung.raeume.index')" wire:navigate variant="ghost">Abbrechen</flux:button>
             </div>
         </form>
