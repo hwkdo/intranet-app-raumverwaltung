@@ -335,10 +335,15 @@ $save = function () {
                 
                 <flux:field>
                     <flux:label>Fachbereich</flux:label>
-                    <flux:select wire:model="fachbereich_id">
-                        <option value="">Bitte wählen...</option>
+                    <flux:select 
+                        variant="listbox" 
+                        wire:model="fachbereich_id" 
+                        searchable 
+                        placeholder="Fachbereich auswählen..."
+                    >
+                        <flux:select.option value="">Bitte wählen...</flux:select.option>
                         @foreach($this->fachbereiche as $item)
-                            <option value="{{ $item->id }}">{{ $item->bezeichnung }}</option>
+                            <flux:select.option value="{{ $item->id }}">{{ $item->bezeichnung }}</flux:select.option>
                         @endforeach
                     </flux:select>
                     <flux:error name="fachbereich_id" />
