@@ -41,4 +41,9 @@ class IntranetAppRaumverwaltung implements IntranetAppInterface
     {
         return \Hwkdo\IntranetAppRaumverwaltung\Data\AppSettings::class;
     }
+
+    public static function mcpServers(): array
+    {
+        return [];
+    }
 }
