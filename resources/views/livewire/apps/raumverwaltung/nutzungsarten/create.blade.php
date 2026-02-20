@@ -34,7 +34,7 @@ $save = function () {
 
 <div>
 <x-intranet-app-raumverwaltung::raumverwaltung-layout heading="Nutzungsart erstellen" subheading="Neue Nutzungsart anlegen">
-        <flux:card>
+        <flux:card class="glass-card">
             <flux:heading size="lg" class="mb-6">Neue Nutzungsart</flux:heading>
             
             <form wire:submit="save" class="space-y-6">

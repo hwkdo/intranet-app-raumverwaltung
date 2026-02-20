@@ -43,7 +43,7 @@ $update = function () {
 
 <div>
 <x-intranet-app-raumverwaltung::raumverwaltung-layout heading="Nutzungsart bearbeiten" subheading="Nutzungsart bearbeiten">
-        <flux:card>
+        <flux:card class="glass-card">
             <flux:heading size="lg" class="mb-6">Nutzungsart bearbeiten</flux:heading>
             
             <form wire:submit="update" class="space-y-6">

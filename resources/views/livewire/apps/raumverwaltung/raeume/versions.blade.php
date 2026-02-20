@@ -53,12 +53,12 @@ $revert = function ($versionId) {
         @if($this->versions->count() > 0)
             <div class="space-y-4">
                 @foreach($this->versions as $version)
-                    <flux:card class="p-4">
+                    <flux:card class="glass-card p-4">
                         <div class="space-y-3">
                             <div class="flex items-center justify-between">
                                 <div>
                                     <flux:heading size="lg">Version {{ $version->version_id }}</flux:heading>
-                                    <div class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                                    <div class="mt-1 text-sm text-slate-500 dark:text-white/50">
                                         Erstellt am: {{ $version->created_at->format('d.m.Y H:i:s') }}
                                         @if($version->user_id)
                                             | Benutzer ID: {{ $version->user_id }}
@@ -81,7 +81,7 @@ $revert = function ($versionId) {
                             <!-- Diff zur aktuellen Version -->
                             <div class="mt-4">
                                 <flux:heading size="md" class="mb-2">Änderungen zur aktuellen Version:</flux:heading>
-                                <div class="rounded bg-gray-50 p-4 text-sm dark:bg-gray-900">
+                                <div class="rounded-lg border border-[#d0e3f9]/60 dark:border-white/10 bg-white/50 dark:bg-[#04214e]/30 p-4 text-sm">
                                     @php
                                         $currentData = $raum->toArray();
                                         $versionData = json_decode($version->model_data, true);
@@ -100,7 +100,7 @@ $revert = function ($versionId) {
                                     @if(count($diff) > 0)
                                         <table class="w-full table-auto">
                                             <thead>
-                                                <tr class="border-b dark:border-gray-700">
+                                                <tr class="border-b border-[#d0e3f9]/60 dark:border-white/15">
                                                     <th class="px-2 py-1 text-left">Feld</th>
                                                     <th class="px-2 py-1 text-left">Alte Version</th>
                                                     <th class="px-2 py-1 text-left">Aktuelle Version</th>
@@ -108,7 +108,7 @@ $revert = function ($versionId) {
                                             </thead>
                                             <tbody>
                                                 @foreach($diff as $field => $values)
-                                                    <tr class="border-b dark:border-gray-800">
+                                                    <tr class="border-b border-[#d0e3f9]/40 dark:border-white/10">
                                                         <td class="px-2 py-1 font-medium">{{ $field }}</td>
                                                         <td class="px-2 py-1 text-red-600 dark:text-red-400">
                                                             {{ is_null($values['old']) ? 'NULL' : $values['old'] }}
@@ -121,7 +121,7 @@ $revert = function ($versionId) {
                                             </tbody>
                                         </table>
                                     @else
-                                        <p class="text-gray-600 dark:text-gray-400">
+                                        <p class="text-slate-500 dark:text-white/50">
                                             Keine Unterschiede zur aktuellen Version.
                                         </p>
                                     @endif
@@ -130,10 +130,10 @@ $revert = function ($versionId) {
                             
                             <!-- Vollständige Version-Daten (Details) -->
                             <details class="mt-4">
-                                <summary class="cursor-pointer text-sm font-medium text-gray-700 dark:text-gray-300">
+                                <summary class="cursor-pointer text-sm font-medium text-[#073070]/80 dark:text-white/70">
                                     Vollständige Versionsdaten anzeigen
                                 </summary>
-                                <div class="mt-2 rounded bg-gray-100 p-3 text-xs dark:bg-gray-800">
+                                <div class="mt-2 rounded-lg border border-[#d0e3f9]/50 dark:border-white/10 bg-white/40 dark:bg-[#04214e]/30 p-3 text-xs">
                                     <pre class="overflow-auto">{{ json_encode(json_decode($version->model_data, true), JSON_PRETTY_PRINT) }}</pre>
                                 </div>
                             </details>
@@ -142,8 +142,8 @@ $revert = function ($versionId) {
                 @endforeach
             </div>
         @else
-            <flux:card class="p-6 text-center">
-                <p class="text-gray-600 dark:text-gray-400">
+            <flux:card class="glass-card p-6 text-center">
+                <p class="text-slate-500 dark:text-white/50">
                     Für diesen Raum gibt es noch keine Versionen.
                 </p>
             </flux:card>

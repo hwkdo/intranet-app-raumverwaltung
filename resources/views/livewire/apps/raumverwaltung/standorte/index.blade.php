@@ -37,6 +37,7 @@ $delete = function (Standort $standort) {
 
 <div>
 <x-intranet-app-raumverwaltung::raumverwaltung-layout heading="Standorte" subheading="Verwalten Sie alle Standorte">
+        <flux:card class="glass-card">
         <div class="mb-6 flex items-center justify-between gap-4">
             <flux:input 
                 wire:model.live.debounce.300ms="search" 
@@ -92,5 +93,6 @@ $delete = function (Standort $standort) {
                 @endforeach
             </flux:table.rows>
         </flux:table>
+        </flux:card>
 </x-intranet-app-raumverwaltung::raumverwaltung-layout>
 </div>

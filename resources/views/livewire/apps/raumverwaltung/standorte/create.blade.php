@@ -40,7 +40,7 @@ $save = function () {
 
 <div>
 <x-intranet-app-raumverwaltung::raumverwaltung-layout heading="Standort erstellen" subheading="Neuen Standort anlegen">
-        <flux:card>
+        <flux:card class="glass-card">
             <flux:heading size="lg" class="mb-6">Neuer Standort</flux:heading>
             
             <form wire:submit="save" class="space-y-6">

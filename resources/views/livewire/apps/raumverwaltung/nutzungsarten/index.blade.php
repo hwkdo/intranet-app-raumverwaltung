@@ -37,6 +37,7 @@ $delete = function (Nutzungsart $nutzungsart) {
 
 <div>
 <x-intranet-app-raumverwaltung::raumverwaltung-layout heading="Nutzungsarten" subheading="Verwalten Sie alle Nutzungsarten">
+        <flux:card class="glass-card">
         <div class="mb-6 flex items-center justify-between gap-4">
             <flux:input 
                 wire:model.live.debounce.300ms="search" 
@@ -86,5 +87,6 @@ $delete = function (Nutzungsart $nutzungsart) {
                 @endforeach
             </flux:table.rows>
         </flux:table>
+        </flux:card>
 </x-intranet-app-raumverwaltung::raumverwaltung-layout>
 </div>

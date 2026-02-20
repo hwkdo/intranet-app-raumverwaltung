@@ -17,6 +17,7 @@ $ereignisse = computed(function () {
 
 <div>
 <x-intranet-app-raumverwaltung::raumverwaltung-layout heading="Ereignisse" subheading="Letzte 20 Änderungen an Räumen">
+    <flux:card class="glass-card">
     <div class="space-y-6">
         @if($this->ereignisse->count() > 0)
             <flux:table>
@@ -55,12 +56,13 @@ $ereignisse = computed(function () {
                 </flux:table.rows>
             </flux:table>
         @else
-            <flux:card class="p-6 text-center">
-                <p class="text-gray-600 dark:text-gray-400">
+            <flux:card class="glass-card p-6 text-center">
+                <p class="text-slate-500 dark:text-white/50">
                     Keine Ereignisse gefunden.
                 </p>
             </flux:card>
         @endif
     </div>
+    </flux:card>
 </x-intranet-app-raumverwaltung::raumverwaltung-layout>
 </div>

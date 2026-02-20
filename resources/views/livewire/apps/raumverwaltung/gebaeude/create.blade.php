@@ -40,7 +40,7 @@ $save = function () {
 
 <div>
 <x-intranet-app-raumverwaltung::raumverwaltung-layout heading="Gebäude erstellen" subheading="Neues Gebäude anlegen">
-        <flux:card>
+        <flux:card class="glass-card">
             <flux:heading size="lg" class="mb-6">Neues Gebäude</flux:heading>
             
             <form wire:submit="save" class="space-y-6">

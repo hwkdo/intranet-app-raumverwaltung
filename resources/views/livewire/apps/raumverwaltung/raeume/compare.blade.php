@@ -135,7 +135,7 @@ $comparisons = computed(function () use ($compareField) {
 
 <div>
     <x-intranet-app-raumverwaltung::raumverwaltung-layout heading="Raum-Vergleich" subheading="Vergleich der Datenstände">
-        <flux:card>
+        <flux:card class="glass-card">
             <div class="mb-6">
                 <flux:heading size="lg" class="mb-4">Raum: {{ $raum->raumnr_neu ?? $raum->raumnummer ?? 'N/A' }}</flux:heading>
                 
@@ -152,7 +152,7 @@ $comparisons = computed(function () use ($compareField) {
             <div class="overflow-x-auto">
                 <table class="w-full border-collapse">
                     <thead>
-                        <tr class="border-b-2 border-gray-300 dark:border-gray-700">
+                        <tr class="border-b-2 border-[#d0e3f9] dark:border-white/20">
                             <th class="text-left p-3 font-semibold">Feld</th>
                             <th class="text-left p-3 font-semibold bg-blue-50 dark:bg-blue-950">Lokales System</th>
                             @if($raum->bue_id)
@@ -184,7 +184,7 @@ $comparisons = computed(function () use ($compareField) {
                                 ];
                                 $label = $fieldLabels[$fieldName] ?? $fieldName;
                             @endphp
-                            <tr class="border-b border-gray-200 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-900">
+                            <tr class="border-b border-[#d0e3f9]/60 dark:border-white/10 hover:bg-[#d0e3f9]/20 dark:hover:bg-white/5">
                                 <td class="p-3 font-medium">{{ $label }}</td>
                                 
                                 <!-- Lokales System -->

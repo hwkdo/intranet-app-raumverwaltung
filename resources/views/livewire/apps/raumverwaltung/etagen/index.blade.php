@@ -36,6 +36,7 @@ $delete = function (Etage $etage) {
 
 <div>
 <x-intranet-app-raumverwaltung::raumverwaltung-layout heading="Etagen" subheading="Verwalten Sie alle Etagen">
+        <flux:card class="glass-card">
         <div class="mb-6 flex items-center justify-between gap-4">
             <flux:input 
                 wire:model.live.debounce.300ms="search" 
@@ -81,5 +82,6 @@ $delete = function (Etage $etage) {
                 @endforeach
             </flux:table.rows>
         </flux:table>
+        </flux:card>
 </x-intranet-app-raumverwaltung::raumverwaltung-layout>
 </div>

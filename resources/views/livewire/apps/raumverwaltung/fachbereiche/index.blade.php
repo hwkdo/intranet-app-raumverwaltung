@@ -37,6 +37,7 @@ $delete = function (Fachbereich $fachbereich) {
 
 <div>
 <x-intranet-app-raumverwaltung::raumverwaltung-layout heading="Fachbereiche" subheading="Verwalten Sie alle Fachbereiche">
+        <flux:card class="glass-card">
         <div class="mb-6 flex items-center justify-between gap-4">
             <flux:input 
                 wire:model.live.debounce.300ms="search" 
@@ -84,5 +85,6 @@ $delete = function (Fachbereich $fachbereich) {
                 @endforeach
             </flux:table.rows>
         </flux:table>
+        </flux:card>
 </x-intranet-app-raumverwaltung::raumverwaltung-layout>
 </div>

@@ -152,9 +152,9 @@ $save = function () {
 
 <div>
 <x-intranet-app-raumverwaltung::raumverwaltung-layout heading="Raum bearbeiten" subheading="Raum {{ $raum->id }} bearbeiten">
-    <flux:card>
+    <flux:card class="glass-card">
         <!-- Live-Vorschau der generierten Raumnummer -->
-        <div class="mb-6 rounded-lg border p-4 @if($this->generatedNumber) bg-green-50 border-green-200 dark:bg-green-950 dark:border-green-800 @else bg-gray-50 border-gray-200 dark:bg-gray-900 dark:border-gray-700 @endif">
+        <div class="mb-6 rounded-lg border p-4 @if($this->generatedNumber) bg-green-50 border-green-200 dark:bg-green-950 dark:border-green-800 @else bg-white/40 border-[#d0e3f9]/60 dark:bg-[#04214e]/20 dark:border-white/15 @endif">
             <flux:heading size="lg" class="mb-4">Generierte Raumnummer</flux:heading>
             
             @if($this->generatedNumber)
@@ -162,7 +162,7 @@ $save = function () {
                     {{ $this->generatedNumber }}
                 </div>
             @else
-                <div class="text-gray-500 dark:text-gray-400">
+                <div class="text-slate-400 dark:text-white/40">
                     Bitte füllen Sie alle Pflichtfelder aus
                 </div>
             @endif
@@ -268,7 +268,7 @@ $save = function () {
                     
                     <flux:field>
                         <flux:label>Neue Raumnummer (automatisch generiert) *</flux:label>
-                        <flux:input wire:model="raumnr_neu" readonly class="bg-gray-100 dark:bg-gray-800" />
+                        <flux:input wire:model="raumnr_neu" readonly class="bg-[#d0e3f9]/20 dark:bg-[#04214e]/30" />
                         <flux:error name="raumnr_neu" />
                     </flux:field>
                 </div>

@@ -177,6 +177,7 @@ $exportExcel = function () {
 
 <div>
 <x-intranet-app-raumverwaltung::raumverwaltung-layout heading="Räume" subheading="Verwalten Sie alle Räume">
+    <flux:card class="glass-card">
     <div class="space-y-6">
         <!-- Filter und Actions -->
         <div class="flex items-center justify-between gap-4">
@@ -238,7 +239,7 @@ $exportExcel = function () {
         </div>
 
         <!-- Anzahl gefilterter Datensätze -->
-        <div class="text-sm text-gray-600 dark:text-gray-400">
+        <div class="text-sm text-slate-500 dark:text-white/50">
             Gefilterte Räume: {{ $this->filteredCount }}
         </div>
 
@@ -313,5 +314,6 @@ $exportExcel = function () {
             </flux:table.rows>
         </flux:table>
     </div>
+    </flux:card>
 </x-intranet-app-raumverwaltung::raumverwaltung-layout>
 </div>
