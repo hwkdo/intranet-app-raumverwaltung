@@ -43,6 +43,7 @@ Route::middleware(['web', 'auth', 'can:see-app-raumverwaltung'])->group(function
     
     // Settings
     Volt::route('apps/raumverwaltung/settings/user', 'apps.raumverwaltung.settings.user')->name('apps.raumverwaltung.settings.user');
+    Volt::route('apps/raumverwaltung/info', 'apps.raumverwaltung.info')->name('apps.raumverwaltung.info');
 });
 
 Route::middleware(['web','auth','can:manage-app-raumverwaltung'])->group(function () {

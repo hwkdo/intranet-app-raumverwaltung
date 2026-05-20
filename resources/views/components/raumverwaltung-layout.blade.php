@@ -15,6 +15,7 @@
         ['label' => 'Etagen', 'href' => route('apps.raumverwaltung.etagen.index'), 'icon' => 'squares-2x2', 'description' => 'Etagen verwalten', 'buttonText' => 'Etagen anzeigen'],
         ['label' => 'Ereignisse', 'href' => route('apps.raumverwaltung.ereignisse.index'), 'icon' => 'clock', 'description' => 'Versionshistorie anzeigen', 'buttonText' => 'Ereignisse anzeigen'],
         ['label' => 'Meine Einstellungen', 'href' => route('apps.raumverwaltung.settings.user'), 'icon' => 'cog-6-tooth', 'description' => 'Persönliche Einstellungen anpassen', 'buttonText' => 'Einstellungen öffnen'],
+        ['label' => 'App-Info', 'href' => route('apps.raumverwaltung.info'), 'icon' => 'information-circle', 'description' => 'Installierte Version und Release-Historie', 'buttonText' => 'App-Info anzeigen'],
         ['label' => 'Admin', 'href' => route('apps.raumverwaltung.admin.index'), 'icon' => 'shield-check', 'description' => 'Administrationsbereich verwalten', 'buttonText' => 'Admin öffnen', 'permission' => 'manage-app-raumverwaltung']
     ];
     
