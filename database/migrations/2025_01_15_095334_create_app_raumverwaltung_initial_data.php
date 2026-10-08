@@ -388,12 +388,15 @@ return new class extends Migration
             ]);
         }
 
-        foreach (app(BueLaravel::class)->getFachbereiche() as $fb) {
-            Fachbereich::create([
-                'nr' => (int) $fb->id,
-                'bezeichnung' => $fb->name,
-                'kst' => (int) $fb->kst,
-            ]);
+        // Fachbereiche kommen live aus der BUE. In Tests bleiben sie leer, damit migrate:fresh keine Oracle-Verbindung öffnet.
+        if (! app()->runningUnitTests()) {
+            foreach (app(BueLaravel::class)->getFachbereiche() as $fb) {
+                Fachbereich::create([
+                    'nr' => (int) $fb->id,
+                    'bezeichnung' => $fb->name,
+                    'kst' => (int) $fb->kst,
+                ]);
+            }
         }
     }
 
