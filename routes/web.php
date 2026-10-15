@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
-
 Route::middleware(['web', 'auth', 'can:see-app-raumverwaltung'])->group(function () {
     Volt::route('apps/raumverwaltung', 'apps.raumverwaltung.index')->name('apps.raumverwaltung.index');
 
@@ -52,15 +51,14 @@ Route::middleware(['web', 'auth', 'can:see-app-raumverwaltung'])->group(function
     Volt::route('apps/raumverwaltung/raeume/{raum}/versions', 'apps.raumverwaltung.raeume.versions')->name('apps.raumverwaltung.raeume.versions');
 
     Volt::route('apps/raumverwaltung/raeume/{raum}/compare', 'apps.raumverwaltung.raeume.compare')->name('apps.raumverwaltung.raeume.compare');
-    
+
     // Ereignisse
     Volt::route('apps/raumverwaltung/ereignisse', 'apps.raumverwaltung.ereignisse.index')->name('apps.raumverwaltung.ereignisse.index');
-    
+
     // Info
     Volt::route('apps/raumverwaltung/info', 'apps.raumverwaltung.info')->name('apps.raumverwaltung.info');
 });
 
-
-Route::middleware(['web','auth','can:manage-app-raumverwaltung'])->group(function () {
+Route::middleware(['web', 'auth', 'can:manage-app-raumverwaltung'])->group(function () {
     Volt::route('apps/raumverwaltung/admin', 'apps.raumverwaltung.admin.index')->name('apps.raumverwaltung.admin.index');
 });
